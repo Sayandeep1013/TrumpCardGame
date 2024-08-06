@@ -1,127 +1,77 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaUser, FaRobot, FaCog, FaSignOutAlt } from 'react-icons/fa';
-import UserProfileForm from './UserProfileForm';
+import Navbar from '../components/Navbar';
+import GameCard from '../components/GameCard';
 
-const ProfileContainer = styled.div`
-  position: relative;
-`;
+// Import game data
+import dragonBallData from '../data/dragonBallData.json';
+import ben10Data from '../data/ben10Data.json';
 
-const AvatarButton = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-  background: none;
-  position: relative;
-  z-index: 2;
-`;
 
-const AvatarImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #202123;
-  border-radius: 10px;
-  padding: 8px 0;
-  margin-top: 8px;
-  width: 220px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-`;
-
-const UserGreeting = styled.div`
+const PageWrapper = styled.div`
   display: flex;
-  align-items: center;
-  padding: 12px 16px;
-
-  img {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    margin-right: 12px;
-  }
-
-  span {
-    color: #fff;
-    font-size: 14px;
-  }
+  flex-direction: column;
+  min-height: 100vh;
 `;
 
-const Separator = styled.div`
-  height: 1px;
-  background-color: #4d4d4f;
-  margin: 8px 16px;
-`;
-
-const MenuItem = styled.div`
+const MainContent = styled.main`
+  flex: 1;
   display: flex;
-  align-items: center;
-  padding: 10px 16px;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #2a2b32;
-    border-radius: 10px;
-  }
-
-  svg {
-    margin-right: 12px;
-    font-size: 16px;
-  }
+  flex-direction: column;
 `;
 
-const LogoutItem = styled(MenuItem)`
-  color: #ec5e5e;
+const HomePageContainer = styled.div`
+  text-align: center;
+  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const Title = styled.h1`
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+`;
+
+const Description = styled.p`
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+`;
+
+const GameCardsContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 `;
 
 
-const UserProfile = () => {
-  // ... rest of the code ...
+const HomePage = () => {
+  const navigate = useNavigate();
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-
-  const openForm = () => {
-    setIsFormOpen(true);
-  };
-
-  const closeForm = () => {
-    setIsFormOpen(false);
+  const handleGameSelect = (gameData) => {
+    navigate('/game', { state: { gameData } });
   };
 
   return (
-    <ProfileContainer ref={dropdownRef}>
-      <AvatarButton onClick={toggleMenu}>
-        <AvatarImage src={avatar || '/public/UserPfp.jpg'} alt="User" />
-      </AvatarButton>
-      {isOpen && (
-        <DropdownMenu>
-          {username && avatar ? (
-            <>
-              {/* ... rest of the code ... */}
-            </>
-          ) : (
-            <MenuItem onClick={openForm}>
-              <FaUser />
-              Set User Profile
-            </MenuItem>
-          )}
-        </DropdownMenu>
-      )}
-      <UserProfileForm isOpen={isFormOpen} onRequestClose={closeForm} />
-    </ProfileContainer>
+    <PageWrapper>
+      <Navbar />
+      <MainContent>
+        <HomePageContainer>
+          <Title>Welcome to TrumpCards</Title>
+          <Description>
+            A fun and exciting card game inspired by your favorite anime characters!
+          </Description>
+          <GameCardsContainer>
+            <GameCard title="Dragon Ball" image="dragon-ball.jpg" onClick={() => handleGameSelect(dragonBallData)} />
+            <GameCard title="Ben 10" image="ben-10.jpg" onClick={() => handleGameSelect(ben10Data)} />
+            {/* Add more game cards here */}
+          </GameCardsContainer>
+        </HomePageContainer>
+      </MainContent>
+    </PageWrapper>
   );
 };
 
-export default UserProfile;
+export default HomePage;

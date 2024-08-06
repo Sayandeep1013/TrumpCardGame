@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const GameCardContainer = styled.div`
-  width: 300px;
-  height: 200px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
+  border: 1px solid #30363d;
   cursor: pointer;
   transition: transform 0.3s;
-
   &:hover {
     transform: scale(1.05);
   }
@@ -26,8 +26,8 @@ const GameCardTitle = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background-color: rgba(13, 17, 23, 0.8);
+  color: #58a6ff;
   padding: 0.5rem;
   text-align: center;
   font-size: 1.2rem;
@@ -43,4 +43,3 @@ const GameCard = ({ title, image }) => {
 };
 
 export default GameCard;
-
