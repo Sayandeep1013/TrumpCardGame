@@ -1,3 +1,12 @@
+import {
+  dragonBallCards,
+  ben10Cards,
+  pokemonCards,
+  powerRangersCards,
+  yugiohCards,
+  narutoCards,
+} from "./cardData";
+
 export const gameData = [
   {
     id: 1,
@@ -7,92 +16,80 @@ export const gameData = [
       { image: "/images/rule1.jpg", description: "Rule 1 description" },
       { image: "/images/rule2.jpg", description: "Rule 2 description" },
       { image: "/images/rule3.jpg", description: "Rule 3 description" },
-      // Add more rules as needed
     ],
-    
+    cards: dragonBallCards,
+    coverImage: "/images/dragonball-cover.jpg",
+    backImage: "/images/dragonball-back.jpg",
   },
   {
     id: 2,
     title: "Ben 10",
-    image: "/card.png",
+    image: "/images/ben10.jpg",
     description: "Transform into alien heroes and save the universe!",
     rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
+      { image: "/images/rule1.jpg", description: "Rule 1 description" },
+      { image: "/images/rule2.jpg", description: "Rule 2 description" },
+      { image: "/images/rule3.jpg", description: "Rule 3 description" },
+    ],
+    cards: ben10Cards,
+    coverImage: "/images/ben10-cover.jpg",
+    backImage: "/images/ben10-back.jpg",
   },
   {
     id: 3,
-    title: "Power Rangers",
-    image: "/images/power-rangers.jpg",
-    description: "Morph into mighty heroes and defeat evil!",
+    title: "Pokémon",
+    image: "/images/pokemon.jpg",
+    description: "Catch 'em all and battle with your favorite Pokémon!",
     rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
+      { image: "/images/rule1.jpg", description: "Rule 1 description" },
+      { image: "/images/rule2.jpg", description: "Rule 2 description" },
+      { image: "/images/rule3.jpg", description: "Rule 3 description" },
+    ],
+    cards: pokemonCards,
+    coverImage: "/images/pokemon-cover.jpg",
+    backImage: "/images/pokemon-back.jpg",
   },
   {
     id: 4,
-    title: "Naruto",
-    image: "/images/naruto.jpg",
-    description: "Master ninja techniques and become the next Hokage!",
+    title: "Power Rangers",
+    image: "/images/powerrangers.jpg",
+    description: "Join the Power Rangers and fight evil!",
     rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
+      { image: "/images/rule1.jpg", description: "Rule 1 description" },
+      { image: "/images/rule2.jpg", description: "Rule 2 description" },
+      { image: "/images/rule3.jpg", description: "Rule 3 description" },
+    ],
+    cards: powerRangersCards,
+    coverImage: "/images/powerrangers-cover.jpg",
+    backImage: "/images/powerrangers-back.jpg",
   },
   {
     id: 5,
-    title: "Pokemon",
-    image: "/images/pokemon.jpg",
-    description: "Catch, train, and battle with your favorite Pokemon!",
+    title: "Yu-Gi-Oh!",
+    image: "/images/yugioh.jpg",
+    description: "Duel with powerful monsters and spells in Yu-Gi-Oh!",
     rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
+      { image: "/images/rule1.jpg", description: "Rule 1 description" },
+      { image: "/images/rule2.jpg", description: "Rule 2 description" },
+      { image: "/images/rule3.jpg", description: "Rule 3 description" },
+    ],
+    cards: yugiohCards,
+    coverImage: "/images/yugioh-cover.jpg",
+    backImage: "/images/yugioh-back.jpg",
   },
   {
     id: 6,
-    title: "Yu-Gi-Oh!",
-    image: "/images/yugioh.jpg",
-    description: "Duel with powerful monsters and spells!",
+    title: "Naruto",
+    image: "/images/naruto.jpg",
+    description: "Fight alongside your favorite ninjas in the Naruto world!",
     rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
+      { image: "/images/rule1.jpg", description: "Rule 1 description" },
+      { image: "/images/rule2.jpg", description: "Rule 2 description" },
+      { image: "/images/rule3.jpg", description: "Rule 3 description" },
+    ],
+    cards: narutoCards,
+    coverImage: "/images/naruto-cover.jpg",
+    backImage: "/images/naruto-back.jpg",
   },
-  {
-    id: 7,
-    title: "Digimon",
-    image: "/images/digimon.jpg",
-    description: "Partner with digital monsters and save both worlds!",
-    rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
-  },
-  {
-    id: 8,
-    title: "One Piece",
-    image: "/images/one-piece.jpg",
-    description: "Set sail for adventure and find the One Piece!",
-    rules: [
-        { image: "/images/rule1.jpg", description: "Rule 1 description" },
-        { image: "/images/rule2.jpg", description: "Rule 2 description" },
-        { image: "/images/rule3.jpg", description: "Rule 3 description" },
-        // Add more rules as needed
-      ],
-  },
+  // Add more game entries as needed
 ];

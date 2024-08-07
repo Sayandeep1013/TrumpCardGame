@@ -10,6 +10,7 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
   padding: 8rem 2rem 2rem;
   background-color: #0d1117;
   color: #fff;
@@ -34,14 +35,12 @@ const CardContainer = styled.div`
   perspective: 1000px;
   align-items: center;
   justify-content: center;
-  // border: 1px solid #fff;
 `;
 
 const Card = styled.div`
   width: 300px;
   height: 450px;
   background-image: url(${(props) => props.image});
-  // background-image:  url('/card.png');
   background-size: cover;
   background-position: center;
   border-radius: 15px;
@@ -76,8 +75,8 @@ const PlayButton = styled.button`
 
 const RulesButton = styled.button`
   position: absolute;
-  top: 50%;
-  right: ${(props) => (props.gameStarted ? "-80px" : "20px")};
+  top: 40%;
+  right: ${(props) => (props.gameStarted ? "10px" : "calc(50% - 400px)")};
   transform: translateY(-50%);
   padding: 10px 20px;
   background-color: #000000;
@@ -96,7 +95,7 @@ const RulesButton = styled.button`
     background-color: #ffffff;
     color: #000000;
     border: 1px solid #000000;
-    right: ${(props) => (props.gameStarted ? "0" : "20px")};
+    transition: all 0.3s ease-in-out;
   }
 `;
 

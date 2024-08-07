@@ -41,28 +41,26 @@ const LogoText = styled.div`
 const NavItems = styled.ul`
   display: flex;
   list-style: none;
-  margin: 50px auto;
-//   padding-top: 1 rem;
+  margin: 0 auto;
+  padding-top: 0;
 
   @media (max-width: 1024px) {
-    // background-color: rgba(0, 0, 0, 1);
     position: fixed;
-    top: 60px; // Adjust this value to move items down
-    height: 200px;
+    top: 00px;
     left: ${({ isOpen }) => (isOpen ? "0" : "-150%")};
     right: 0;
-    bottom: 0;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    
+    background-color: rgba(0, 0, 0, 0.9);
+    // backdrop-filter: blur(10px);
     transition: left 0.3s ease-in-out;
-    padding-top: 2 rem;
+    z-index: 999;
   }
 `;
 
 const NavItem = styled.li`
-  margin: -1rem 1rem;
+  margin: 0 1rem;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
