@@ -48,6 +48,7 @@ const NavItems = styled.ul`
     // background-color: rgba(0, 0, 0, 1);
     position: fixed;
     top: 60px; // Adjust this value to move items down
+    height: 200px;
     left: ${({ isOpen }) => (isOpen ? "0" : "-150%")};
     right: 0;
     bottom: 0;

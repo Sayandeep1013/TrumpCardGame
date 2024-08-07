@@ -1,77 +1,57 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Navbar from '../components/Navbar';
-import GameCard from '../components/GameCard';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import Explore from "./pages/Explore";
+import GamePage from "./pages/GamePage";
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #0d1117;
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  }
 
-// Import game data
-import dragonBallData from '../data/dragonBallData.json';
-import ben10Data from '../data/ben10Data.json';
+  /* Custom scrollbar styles for the entire page */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #30363d #0d1117;
+  }
 
+  /* WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
 
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  ::-webkit-scrollbar-track {
+    background: #0d1117;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #30363d;
+    border-radius: 6px;
+    border: 3px solid #0d1117;
+  }
 `;
 
-const MainContent = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const HomePageContainer = styled.div`
-  text-align: center;
-  padding: 2rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const Title = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-`;
-
-const Description = styled.p`
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-`;
-
-const GameCardsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-`;
-
-
-const HomePage = () => {
-  const navigate = useNavigate();
-
-  const handleGameSelect = (gameData) => {
-    navigate('/game', { state: { gameData } });
-  };
-
+const App = () => {
   return (
-    <PageWrapper>
+    <BrowserRouter>
+      <GlobalStyle />
       <Navbar />
-      <MainContent>
-        <HomePageContainer>
-          <Title>Welcome to TrumpCards</Title>
-          <Description>
-            A fun and exciting card game inspired by your favorite anime characters!
-          </Description>
-          <GameCardsContainer>
-            <GameCard title="Dragon Ball" image="dragon-ball.jpg" onClick={() => handleGameSelect(dragonBallData)} />
-            <GameCard title="Ben 10" image="ben-10.jpg" onClick={() => handleGameSelect(ben10Data)} />
-            {/* Add more game cards here */}
-          </GameCardsContainer>
-        </HomePageContainer>
-      </MainContent>
-    </PageWrapper>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/game/:gameId" element={<GamePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
-export default HomePage;
+export default App;

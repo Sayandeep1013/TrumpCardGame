@@ -2,6 +2,7 @@ import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
 import GameCard from "../components/GameCard";
+import { gameData } from "../data/games";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -218,24 +219,24 @@ const Separator = styled.hr`
   margin: 2rem 10% 0;
 `;
 
-const gameData = [
-  { id: 1, title: "Dragon Ball", image: "/images/dragon-ball.jpg" },
-  { id: 2, title: "Ben 10", image: "/images/ben-10.jpg" },
-  { id: 3, title: "Power Rangers", image: "/images/power-rangers.jpg" },
-  { id: 4, title: "Naruto", image: "/images/naruto.jpg" },
-  { id: 5, title: "Pokemon", image: "/images/pokemon.jpg" },
-  { id: 6, title: "Yu-Gi-Oh!", image: "/images/yugioh.jpg" },
-  { id: 7, title: "Digimon", image: "/images/digimon.jpg" },
-  { id: 8, title: "One Piece", image: "/images/one-piece.jpg" },
-  { id: 9, title: "Dragon Ball", image: "/images/dragon-ball.jpg" },
-  { id: 10, title: "Ben 10", image: "/images/ben-10.jpg" },
-  { id: 11, title: "Power Rangers", image: "/images/power-rangers.jpg" },
-  { id: 12, title: "Naruto", image: "/images/naruto.jpg" },
-  { id: 13, title: "Pokemon", image: "/images/pokemon.jpg" },
-  { id: 14, title: "Yu-Gi-Oh!", image: "/images/yugioh.jpg" },
-  { id: 15, title: "Digimon", image: "/images/digimon.jpg" },
-  { id: 16, title: "One Piece", image: "/images/one-piece.jpg" },
-];
+// const gameData = [
+//   { id: 1, title: "Dragon Ball", image: "/images/dragon-ball.jpg" },
+//   { id: 2, title: "Ben 10", image: "/images/ben-10.jpg" },
+//   { id: 3, title: "Power Rangers", image: "/images/power-rangers.jpg" },
+//   { id: 4, title: "Naruto", image: "/images/naruto.jpg" },
+//   { id: 5, title: "Pokemon", image: "/images/pokemon.jpg" },
+//   { id: 6, title: "Yu-Gi-Oh!", image: "/images/yugioh.jpg" },
+//   { id: 7, title: "Digimon", image: "/images/digimon.jpg" },
+//   { id: 8, title: "One Piece", image: "/images/one-piece.jpg" },
+//   { id: 9, title: "Dragon Ball", image: "/images/dragon-ball.jpg" },
+//   { id: 10, title: "Ben 10", image: "/images/ben-10.jpg" },
+//   { id: 11, title: "Power Rangers", image: "/images/power-rangers.jpg" },
+//   { id: 12, title: "Naruto", image: "/images/naruto.jpg" },
+//   { id: 13, title: "Pokemon", image: "/images/pokemon.jpg" },
+//   { id: 14, title: "Yu-Gi-Oh!", image: "/images/yugioh.jpg" },
+//   { id: 15, title: "Digimon", image: "/images/digimon.jpg" },
+//   { id: 16, title: "One Piece", image: "/images/one-piece.jpg" },
+// ];
 
 const HomePage = () => {
   return (
@@ -256,8 +257,7 @@ const HomePage = () => {
               {gameData.map((game) => (
                 <Link
                   key={game.id}
-                  to="/game"
-                  state={{ gameData: game }}
+                  to={`/game/${game.id}`}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <GameCard title={game.title} image={game.image} />
