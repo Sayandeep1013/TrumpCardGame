@@ -68,8 +68,18 @@ const PlayButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #2ea043;
-    transform: translateX(-50%) scale(1.05);
+    background-color: #fff;
+    color: #238636;
+    border: 1px solid #238636;
+    // transform: translateX(-50%) scale(1.05);
+  }
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+    margin-top: 20px;
+    right: auto;
+    font-size: 0.9rem;
+    padding: 8px 16px;
   }
 `;
 
@@ -96,6 +106,22 @@ const RulesButton = styled.button`
     color: #000000;
     border: 1px solid #000000;
     transition: all 0.3s ease-in-out;
+  }
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+    margin-top: 20px;
+    right: auto;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+`;
+
+const GameBoardWrapper = styled.div`
+  width: 100%;
+
+  @media (max-width: 768px) {
+    overflow-x: auto;
   }
 `;
 
@@ -165,6 +191,7 @@ const GamePage = () => {
         <RulesButton gameStarted={gameStarted} onClick={toggleRules}>
           {gameStarted ? <ArrowLeft size={24} /> : "Show Rules"}
         </RulesButton>
+        
       </GameContainer>
       <RulesModal
         isOpen={showRules}

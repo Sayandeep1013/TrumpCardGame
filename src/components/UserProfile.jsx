@@ -117,7 +117,7 @@ const ModalContent = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  padding: 10px;
+  padding: 10px; 
   margin-bottom: 16px;
   border: 1px solid #4d4d4f;
   border-radius: 5px;

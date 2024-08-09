@@ -8,7 +8,7 @@ const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1.2rem;
   background-color: rgba(255, 255, 255, 0);
   backdrop-filter: blur(10px);
   position: fixed;
@@ -46,28 +46,28 @@ const NavItems = styled.ul`
 
   @media (max-width: 1024px) {
     position: fixed;
-    top: 00px;
-    left: ${({ isOpen }) => (isOpen ? "0" : "-150%")};
-    right: 0;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    top: 0;
+    left: ${({ isOpen }) => (isOpen ? "0" : "-120%")};
+    width: 100%;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.9);
-    // backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     transition: left 0.3s ease-in-out;
     z-index: 999;
   }
 `;
 
 const NavItem = styled.li`
-  margin: 0 1rem;
-  font-size: 1.2rem;
+  margin: 1rem 0;
+  font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
-
+  color: #fff;
+  padding: 12px;
   @media (max-width: 1024px) {
-    margin: 1rem 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 `;
 

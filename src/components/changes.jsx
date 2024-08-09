@@ -10,15 +10,25 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
   padding: 8rem 2rem 2rem;
   background-color: #0d1117;
   color: #fff;
+
+  @media (max-width: 768px) {
+    padding: 6rem 1rem 1rem;
+  }
 `;
 
 const GameTitle = styled.h1`
   text-align: center;
   margin-bottom: 2rem;
   color: #58a6ff;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const GameContainer = styled.div`
@@ -34,14 +44,17 @@ const CardContainer = styled.div`
   perspective: 1000px;
   align-items: center;
   justify-content: center;
-  // border: 1px solid #fff;
+
+  @media (max-width: 768px) {
+    width: 280px;
+    height: 456px;
+  }
 `;
 
 const Card = styled.div`
   width: 300px;
   height: 450px;
   background-image: url(${(props) => props.image});
-  // background-image:  url('/card.png');
   background-size: cover;
   background-position: center;
   border-radius: 15px;
@@ -51,6 +64,13 @@ const Card = styled.div`
   top: 10px;
   left: 25px;
   border: 1px solid #fff;
+
+  @media (max-width: 768px) {
+    width: 240px;
+    height: 360px;
+    top: 8px;
+    left: 20px;
+  }
 `;
 
 const PlayButton = styled.button`
@@ -72,12 +92,18 @@ const PlayButton = styled.button`
     background-color: #2ea043;
     transform: translateX(-50%) scale(1.05);
   }
+
+  @media (max-width: 768px) {
+    bottom: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
 `;
 
 const RulesButton = styled.button`
   position: absolute;
-  top: 50%;
-  right: ${(props) => (props.gameStarted ? "-80px" : "20px")};
+  top: 40%;
+  right: ${(props) => (props.gameStarted ? "10px" : "calc(50% - 400px)")};
   transform: translateY(-50%);
   padding: 10px 20px;
   background-color: #000000;
@@ -96,10 +122,26 @@ const RulesButton = styled.button`
     background-color: #ffffff;
     color: #000000;
     border: 1px solid #000000;
-    right: ${(props) => (props.gameStarted ? "0" : "20px")};
+    transition: all 0.3s ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+    margin-top: 20px;
+    right: auto;
+    font-size: 0.9rem;
+    padding: 8px 16px;
   }
 `;
 
+const GameBoardWrapper = styled.div`
+  width: 100%;
+  
+  @media (max-width: 768px) {
+    overflow-x: auto;
+  }
+`;
 
 const GamePage = () => {
   const { gameId } = useParams();
@@ -111,7 +153,7 @@ const GamePage = () => {
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (cardRef.current && containerRef.current && !gameStarted) {
+      if (cardRef.current && containerRef.current && !gameStarted && window.innerWidth > 768) {
         const { left, top, width, height } =
           containerRef.current.getBoundingClientRect();
         const mouseX = e.clientX - left;
@@ -160,13 +202,20 @@ const GamePage = () => {
               <Card ref={cardRef} image={game.image} />
             </CardContainer>
             <PlayButton onClick={handlePlayNow}>Play Now</PlayButton>
+            <RulesButton gameStarted={gameStarted} onClick={toggleRules}>
+              Show Rules
+            </RulesButton>
           </>
         ) : (
-          <GameBoard gameData={game} />
+          <>
+            <GameBoardWrapper>
+              <GameBoard gameData={game} />
+            </GameBoardWrapper>
+            <RulesButton gameStarted={gameStarted} onClick={toggleRules}>
+              <ArrowLeft size={24} />
+            </RulesButton>
+          </>
         )}
-        <RulesButton gameStarted={gameStarted} onClick={toggleRules}>
-          {gameStarted ? <ArrowLeft size={24} /> : "Show Rules"}
-        </RulesButton>
       </GameContainer>
       <RulesModal
         isOpen={showRules}
