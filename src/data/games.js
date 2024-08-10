@@ -13,9 +13,9 @@ export const gameData = [
     title: "Dragon Ball",
     image: "/card.png",
     rules: [
-      { image: "/images/rule1.jpg", description: "Rule 1 description" },
-      { image: "/images/rule2.jpg", description: "Rule 2 description" },
-      { image: "/images/rule3.jpg", description: "Rule 3 description" },
+      { image: "/example.png", description: "Rule 1 description" },
+      { image: "/something.png", description: "Rule 2 description" },
+      { image: "/example.png", description: "Rule 3 description" },
     ],
     cards: dragonBallCards,
     coverImage: "/images/dragonball-cover.jpg",

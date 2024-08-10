@@ -41,6 +41,8 @@ const MainContent = styled.main`
   flex-direction: column;
   padding: 2rem;
   align-items: center;
+
+  
 `;
 
 const HeaderSection = styled.div`
@@ -50,6 +52,9 @@ const HeaderSection = styled.div`
   justify-content: center;
   height: 70vh;
   width: 100%;
+  @media (max-width: 768px) {
+    height: 500px;
+  }
 `;
 
 const Title = styled.h1`
@@ -104,7 +109,8 @@ const ScrollableSection = styled.div`
   scrollbar-color: #30363d #0d1117;
 
   @media (max-width: 768px) {
-    height: 400px;
+    height: 500px;
+    margin-top: 0px;
   }
 `;
 

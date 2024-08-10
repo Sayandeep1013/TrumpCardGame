@@ -1,229 +1,330 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { ArrowLeft } from "lucide-react";
-import { gameData } from "../data/games";
-import RulesModal from "../components/RulesModal";
-import GameBoard from "../components/GameBoard";
+import { motion, AnimatePresence } from "framer-motion";
+import Confetti from "react-confetti";
 
-const PageWrapper = styled.div`
+const GameBoardContainer = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+  background-color: #1c2128;
+  border-radius: 15px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  overflow-x: hidden;
-  padding: 8rem 2rem 2rem;
-  background-color: #0d1117;
-  color: #fff;
-
-  @media (max-width: 768px) {
-    padding: 6rem 1rem 1rem;
-  }
-`;
-
-const GameTitle = styled.h1`
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #58a6ff;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-`;
-
-const GameContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
 `;
 
-const CardContainer = styled.div`
-  width: 350px;
-  height: 570px;
-  perspective: 1000px;
-  align-items: center;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    width: 280px;
-    height: 456px;
-  }
+const CardArea = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 70%;
 `;
 
-const Card = styled.div`
-  width: 300px;
-  height: 450px;
-  background-image: url(${(props) => props.image});
+const PlayerArea = styled.div`
+  width: 45%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CardStack = styled(motion.div)`
+  width: 120px;
+  height: 180px;
+  background-color: #30363d;
+  border: 2px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #58a6ff;
+  position: relative;
+`;
+
+const ActiveCard = styled(motion.div)`
+  width: 200px;
+  height: 300px;
+  background-image: ${(props) => `url(${props.image})`};
   background-size: cover;
   background-position: center;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease-out;
-  position: absolute;
-  top: 10px;
-  left: 25px;
-  border: 1px solid #fff;
-
-  @media (max-width: 768px) {
-    width: 240px;
-    height: 360px;
-    top: 8px;
-    left: 20px;
-  }
+  border: 2px solid white;
+  border-radius: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
-const PlayButton = styled.button`
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 24px;
+const CardFront = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+`;
+
+const CardBack = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #30363d;
+  border-radius: 10px;
+`;
+
+const StatContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 5px;
+  margin-right: 10px;
+`;
+
+const StatText = styled.span`
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+`;
+
+const StatButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: ${(props) =>
+    props.isWinner ? "lime" : props.isLoser ? "red" : "white"};
+  text-shadow: 1px 1px 2px black;
+`;
+
+const GameControls = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const ControlButton = styled.button`
+  padding: 10px 20px;
+  margin: 0 10px;
   background-color: #238636;
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   transition: all 0.3s ease;
 
   &:hover {
     background-color: #2ea043;
-    transform: translateX(-50%) scale(1.05);
-  }
-
-  @media (max-width: 768px) {
-    bottom: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
   }
 `;
 
-const RulesButton = styled.button`
-  position: absolute;
-  top: 40%;
-  right: ${(props) => (props.gameStarted ? "10px" : "calc(50% - 400px)")};
-  transform: translateY(-50%);
-  padding: 10px 20px;
-  background-color: #000000;
-  color: white;
-  border: 1px solid #000000;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid #000000;
-    transition: all 0.3s ease-in-out;
-  }
-
-  @media (max-width: 768px) {
-    position: static;
-    transform: none;
-    margin-top: 20px;
-    right: auto;
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
+const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
 `;
 
-const GameBoardWrapper = styled.div`
-  width: 100%;
-  
-  @media (max-width: 768px) {
-    overflow-x: auto;
-  }
-`;
-
-const GamePage = () => {
-  const { gameId } = useParams();
-  const game = gameData.find((g) => g.id === parseInt(gameId));
-  const [showRules, setShowRules] = useState(false);
+const GameBoard = ({ gameData }) => {
+  const [playerDeck, setPlayerDeck] = useState([]);
+  const [botDeck, setBotDeck] = useState([]);
+  const [currentPlayerCard, setCurrentPlayerCard] = useState(null);
+  const [currentBotCard, setCurrentBotCard] = useState(null);
+  const [playerTurn, setPlayerTurn] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
-  const cardRef = useRef(null);
-  const containerRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [selectedStat, setSelectedStat] = useState(null);
+  const [isComparing, setIsComparing] = useState(false);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (cardRef.current && containerRef.current && !gameStarted && window.innerWidth > 768) {
-        const { left, top, width, height } =
-          containerRef.current.getBoundingClientRect();
-        const mouseX = e.clientX - left;
-        const mouseY = e.clientY - top;
+    // Initialize the game
+    const shuffledCards = shuffleCards(gameData.cards);
+    setPlayerDeck(shuffledCards.slice(0, 26));
+    setBotDeck(shuffledCards.slice(26));
+  }, [gameData]);
 
-        if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
-          const centerX = width / 2;
-          const centerY = height / 2;
-          const moveX = (mouseX - centerX) / 25;
-          const moveY = (mouseY - centerY) / 25;
-          cardRef.current.style.transform = `rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
-        } else {
-          cardRef.current.style.transform = "rotateY(0deg) rotateX(0deg)";
-        }
-      }
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => document.removeEventListener("mousemove", handleMouseMove);
-  }, [gameStarted]);
-
-  if (!game) {
-    return (
-      <PageWrapper>
-        <h2>Game not found</h2>
-      </PageWrapper>
-    );
-  }
-
-  const handlePlayNow = () => {
+  const startGame = () => {
     setGameStarted(true);
+    drawNewCards();
   };
 
-  const toggleRules = (e) => {
-    e.preventDefault();
-    setShowRules(!showRules);
+  const drawNewCards = () => {
+    setCurrentPlayerCard(playerDeck[0]);
+    setCurrentBotCard(botDeck[0]);
   };
+
+  const handleStatSelection = (stat) => {
+    if (isComparing) return;
+    setIsComparing(true);
+    setSelectedStat(stat);
+
+    const playerWins =
+      stat === "rank"
+        ? currentPlayerCard[stat] < currentBotCard[stat]
+        : currentPlayerCard[stat] > currentBotCard[stat];
+
+    setTimeout(() => {
+      const winningCards = [currentPlayerCard, currentBotCard];
+
+      if (playerWins) {
+        setPlayerDeck((prevDeck) => [...prevDeck.slice(1), ...winningCards]);
+        setBotDeck((prevDeck) => prevDeck.slice(1));
+        setPlayerTurn(true);
+      } else {
+        setBotDeck((prevDeck) => [...prevDeck.slice(1), ...winningCards]);
+        setPlayerDeck((prevDeck) => prevDeck.slice(1));
+        setPlayerTurn(false);
+      }
+
+      setTimeout(() => {
+        drawNewCards();
+        setSelectedStat(null);
+        setIsComparing(false);
+
+        // Check for game end
+        if (playerDeck.length === 0 || botDeck.length === 0) {
+          endGame();
+        } else if (!playerWins) {
+          // Bot's turn to select a stat
+          botSelectStat();
+        }
+      }, 2000);
+    }, 2000);
+  };
+
+  const botSelectStat = () => {
+    if (isComparing) return;
+    const validStats = getValidStats(currentBotCard);
+    const randomStat =
+      validStats[Math.floor(Math.random() * validStats.length)];
+    handleStatSelection(randomStat);
+  };
+
+  useEffect(() => {
+    if (gameStarted && !playerTurn && !isComparing) {
+      const timer = setTimeout(botSelectStat, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [gameStarted, playerTurn, isComparing]);
+
+  const endGame = () => {
+    const playerWins = botCards.length <= 1;
+    setShowConfetti(playerWins);
+    setModalMessage(
+      playerWins ? "Congratulations! You won!" : "Better luck next time!"
+    );
+    setShowModal(true);
+  };
+
 
   return (
-    <PageWrapper>
-      <GameTitle>{game.title} Trump Card Game</GameTitle>
-      <GameContainer>
+    <GameBoardContainer>
+      <CardArea>
+        <PlayerArea>
+          <CardStack
+            initial={{ x: -1000 }}
+            animate={{ x: 0 }}
+            transition={{ type: "spring", stiffness: 50 }}
+          >
+            {playerDeck.length}
+          </CardStack>
+          <AnimatePresence>
+            {currentPlayerCard && (
+              <ActiveCard
+                key="player-card"
+                image={currentPlayerCard.image}
+                initial={{ x: -1000, rotateY: -90 }}
+                animate={{ x: 0, rotateY: 0 }}
+                exit={{ x: 1000, rotateY: 90 }}
+                transition={{ type: "spring", stiffness: 50 }}
+              >
+                <CardFront>
+                  {getValidStats(currentPlayerCard).map((stat) => (
+                    <StatContainer key={stat}>
+                      <StatText>{stat}</StatText>
+                      <StatButton
+                        onClick={() =>
+                          playerTurn &&
+                          !isComparing &&
+                          handleStatSelection(stat)
+                        }
+                        disabled={!playerTurn || isComparing}
+                        isWinner={selectedStat === stat && playerTurn}
+                        isLoser={selectedStat === stat && !playerTurn}
+                      >
+                        {currentPlayerCard[stat]}
+                      </StatButton>
+                    </StatContainer>
+                  ))}
+                </CardFront>
+              </ActiveCard>
+            )}
+          </AnimatePresence>
+        </PlayerArea>
+        <PlayerArea>
+          <CardStack
+            initial={{ x: 1000 }}
+            animate={{ x: 0 }}
+            transition={{ type: "spring", stiffness: 50 }}
+          >
+            {botDeck.length}
+          </CardStack>
+          <AnimatePresence>
+            {currentBotCard && (
+              <ActiveCard
+                key="bot-card"
+                image={selectedStat ? currentBotCard.image : ""}
+                initial={{ x: 1000, rotateY: 90 }}
+                animate={{ x: 0, rotateY: selectedStat ? 0 : 180 }}
+                exit={{ x: -1000, rotateY: -90 }}
+                transition={{ type: "spring", stiffness: 50 }}
+              >
+                {selectedStat ? (
+                  <CardFront>
+                    {getValidStats(currentBotCard).map((stat) => (
+                      <StatContainer key={stat}>
+                        <StatText>{stat}</StatText>
+                        <StatButton
+                          isWinner={selectedStat === stat && !playerTurn}
+                          isLoser={selectedStat === stat && playerTurn}
+                        >
+                          {currentBotCard[stat]}
+                        </StatButton>
+                      </StatContainer>
+                    ))}
+                  </CardFront>
+                ) : (
+                  <CardBack />
+                )}
+              </ActiveCard>
+            )}
+          </AnimatePresence>
+        </PlayerArea>
+      </CardArea>
+      <GameControls>
         {!gameStarted ? (
-          <>
-            <CardContainer ref={containerRef}>
-              <Card ref={cardRef} image={game.image} />
-            </CardContainer>
-            <PlayButton onClick={handlePlayNow}>Play Now</PlayButton>
-            <RulesButton gameStarted={gameStarted} onClick={toggleRules}>
-              Show Rules
-            </RulesButton>
-          </>
-        ) : (
-          <>
-            <GameBoardWrapper>
-              <GameBoard gameData={game} />
-            </GameBoardWrapper>
-            <RulesButton gameStarted={gameStarted} onClick={toggleRules}>
-              <ArrowLeft size={24} />
-            </RulesButton>
-          </>
-        )}
-      </GameContainer>
-      <RulesModal
-        isOpen={showRules}
-        onClose={() => setShowRules(false)}
-        gameRules={game.rules || []}
-      />
-    </PageWrapper>
+          <ControlButton onClick={startGame}>Start Game</ControlButton>
+        ) : null}
+      </GameControls>
+      {showModal && (
+        <Modal onClick={() => setShowModal(false)}>
+          <h2>{modalMessage}</h2>
+          <p>Click anywhere to close</p>
+        </Modal>
+      )}
+      {showConfetti && <Confetti />}
+    </GameBoardContainer>
   );
 };
 
-export default GamePage;
+export default GameBoard;

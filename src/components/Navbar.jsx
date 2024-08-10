@@ -16,17 +16,25 @@ const NavbarContainer = styled.nav`
   left: 0;
   right: 0;
   z-index: 1000;
+  height: 50px;
 `;
 
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  @media (max-width: 768px) {
+    // width:100%
+    margin-left: 3rem;
+  }
 `;
 
 const LogoIcon = styled(FaGamepad)`
   font-size: 2rem;
   margin-right: 0.5rem;
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const LogoText = styled.div`
@@ -47,13 +55,13 @@ const NavItems = styled.ul`
   @media (max-width: 1024px) {
     position: fixed;
     top: 0;
-    left: ${({ isOpen }) => (isOpen ? "0" : "-120%")};
+    left: ${({ isOpen }) => (isOpen ? "0" : "-110%")};
     width: 100%;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.9);
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: left;
     transition: left 0.3s ease-in-out;
     z-index: 999;
   }

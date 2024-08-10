@@ -38,8 +38,8 @@ const ModalContent = styled.div`
 `;
 
 const RuleImage = styled.img`
-  max-width: 90%;
-  max-height: 60vh;
+  max-width: 100%;
+  max-height: 50vh;
   border-radius: 10px;
   object-fit: contain;
   margin-bottom: 20px;

@@ -172,6 +172,8 @@ const GamePage = () => {
   const toggleRules = (e) => {
     e.preventDefault();
     setShowRules(!showRules);
+
+
   };
 
   return (
